@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daystar Bookings - South Africa's Premier Entertainment Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #E14434;
+            --light-pink: #FFB4B4;
+            --light-yellow: #FEFBC7;
+            --blue: #5EABD6;
+            --background: #ffffff;
+            --foreground: #000000;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        [data-theme="dark"] {
+            --background: #0a0a0a;
+            --foreground: #ffffff;
+            --gray-50: #111827;
+            --gray-100: #1f2937;
+            --gray-200: #374151;
+            --gray-300: #4b5563;
+            --gray-400: #6b7280;
+            --gray-500: #9ca3af;
+            --gray-600: #d1d5db;
+            --gray-700: #e5e7eb;
+            --gray-800: #f3f4f6;
+            --gray-900: #f9fafb;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 1rem 0;
+        }
+
+        [data-theme="dark"] .header {
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom-color: var(--gray-700);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-red);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--foreground);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--primary-red);
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: var(--gray-100);
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--gray-200);
+        }
+
+        .btn-primary {
+            background: var(--primary-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-red), #c73e2f);
+            color: white;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-red);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 1rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 3rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Filter Styles */
+        .filters {
+            margin-bottom: 3rem;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            background: var(--background);
+            color: var(--foreground);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-300);
+            background: var(--background);
+            color: var(--foreground);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-red);
+            color: white;
+            border-color: var(--primary-red);
+        }
+
+        /* Grid Styles */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--background);
+            border: 1px solid var(--gray-200);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-genre {
+            color: var(--primary-red);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .card-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            margin-bottom: 1rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-price {
+            font-size: 1.125rem;
+            font-weight: bold;
+        }
+
+        .card-btn {
+            background: var(--primary-red);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--background);
+            border-radius: 1rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        .close-btn:hover {
+            color: var(--foreground);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-buttons {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+
+            .filter-btn {
+                white-space: nowrap;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--gray-300);
+            border-radius: 50%;
+            border-top-color: var(--primary-red);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Hide elements initially */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="#" class="logo">Daystar Bookings</a>
+            <nav class="nav">
+                <a href="#events">Events</a>
+                <a href="#artists">Artists</a>
+                <a href="#categories">Categories</a>
+                <a href="#booking">Booking</a>
+                <a href="#about">About</a>
+            </nav>
+            <div class="header-buttons">
+                <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">🌙</button>
+                <a href="#" class="btn-primary">Create Event</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>South Africa's Premier Entertainment Platform</h1>
+            <p>Discover, book, and manage verified artists and performers for your events</p>
+            <div class="hero-buttons">
+                <a href="#artists" class="btn-secondary">Browse Artists</a>
+                <a href="#events" class="btn-secondary">View Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="section" id="events" style="background: var(--gray-50);">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            <p class="section-subtitle">Don't miss out on these incredible performances</p>
+            
+            <div class="filters">
+                <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                    <input type="text" class="search-bar" placeholder="Search events..." id="event-search">
+                </div>
+                <div class="filter-buttons" id="event-filters">
+                    <button class="filter-btn active" data-filter="all">All Events</button>
+                    <button class="filter-btn" data-filter="music-festival">Music Festivals</button>
+                    <button class="filter-btn" data-filter="beach-party">Beach Parties</button>
+                    <button class="filter-btn" data-filter="comedy-show">Comedy Shows</button>
+                </div>
+            </div>
+
+            <div class="grid fade-in" id="events-grid">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Artists Section -->
+    <section class="section" id="artists">
+        <div class="container">
+            <h2 class="section-title">Featured Artists</h2>
+            <p class="section-subtitle">Discover verified performers ready to make your event unforgettable</p>
+            
+            <div class="filters">
+                <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                    <input type="text" class="search-bar" placeholder="Search artists..." id="artist-search">
+                </div>
+                <div class="filter-buttons" id="artist-filters">
+                    <button class="filter-btn active" data-filter="all">All Artists</button>
+                    <button class="filter-btn" data-filter="rap-hiphop">Rap & Hip-Hop</button>
+                    <button class="filter-btn" data-filter="djs-electronic">DJs & Electronic</button>
+                    <button class="filter-btn" data-filter="comedy-entertainment">Comedy & Entertainment</button>
+                </div>
+            </div>
+
+            <div class="grid fade-in" id="artists-grid">
+                <!-- Artists will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Artist Modal -->
+    <div class="modal" id="artist-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-artist-name">Artist Name</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modal-artist-content">
+                <!-- Artist details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const artists = [
+            {
+                id: '1',
+                name: 'Creflo J Raps',
+                genres: ['Rap', 'Hip-Hop'],
+                description: 'The only rapper on the platform specializing in authentic South African Hip-Hop with powerful lyrical content.',
+                profileImage: './images/artists/creflo_j_raps.jpg',
+                verified: true,
+                rating: 4.8,
+                location: 'Johannesburg, SA',
+                priceRange: 'R5,000 - R15,000',
+                socialMedia: {
+                    instagram: '@creflojraps',
+                    twitter: '@creflojraps'
+                },
+                categories: ['rap-hiphop']
+            },
+            {
+                id: '2',
+                name: 'Jassy18',
+                genres: ['Hip-Hop', 'Urban'],
+                description: 'Urban Hip-Hop artist bringing fresh sounds and energy to the South African music scene.',
+                profileImage: './images/artists/jassy18.jpg',
+                verified: true,
+                rating: 4.7,
+                location: 'Cape Town, SA',
+                priceRange: 'R4,000 - R12,000',
+                socialMedia: {
+                    instagram: '@jassy18music',
+                    twitter: '@jassy18'
+                },
+                categories: ['rap-hiphop']
+            },
+            {
+                id: '3',
+                name: 'DJ P Touch',
+                genres: ['Amapiano', 'House', 'Electronic'],
+                description: 'Premier Amapiano and House DJ bringing the best of South African electronic music to your events.',
+                profileImage: './images/artists/djptouch.jpg',
+                verified: true,
+                rating: 4.9,
+                location: 'Pretoria, SA',
+                priceRange: 'R3,000 - R10,000',
+                socialMedia: {
+                    instagram: '@djptouch',
+                    twitter: '@djptouch'
+                },
+                categories: ['djs-electronic']
+            },
+            {
+                id: '4',
+                name: 'Burhaan "Momo" Wonder',
+                genres: ['Comedy', 'Entertainment'],
+                description: 'Multi-talented comedian and social media entertainer bringing laughter and joy to every event.',
+                profileImage: './images/artists/momo.jpg',
+                verified: true,
+                rating: 4.6,
+                location: 'Durban, SA',
+                priceRange: 'R2,500 - R8,000',
+                socialMedia: {
+                    instagram: '@momocomedy',
+                    twitter: '@momowonder'
+                },
+                categories: ['comedy-entertainment']
+            }
+        ];
+
+        const events = [
+            {
+                id: '1',
+                title: 'Summer Hip-Hop Festival',
+                description: 'Join us for an incredible night of South African Hip-Hop featuring some of the best artists in the country.',
+                date: '2025-08-15',
+                time: '19:00',
+                venue: 'FNB Stadium',
+                location: 'Johannesburg, SA',
+                category: 'music-festival',
+                artistNames: ['Creflo J Raps', 'Jassy18'],
+                price: 'R150 - R500',
+                image: './images/events/post.jpg',
+                status: 'upcoming',
+                ticketsAvailable: 2500,
+                maxCapacity: 5000
+            },
+            {
+                id: '2',
+                title: 'Amapiano Beach Party',
+                description: 'Experience the hottest Amapiano beats by the beach with DJ P Touch and special guests.',
+                date: '2025-08-20',
+                time: '16:00',
+                venue: 'Durban Beachfront',
+                location: 'Durban, SA',
+                category: 'beach-party',
+                artistNames: ['DJ P Touch'],
+                price: 'R80 - R200',
+                image: './images/events/post.jpg',
+                status: 'upcoming',
+                ticketsAvailable: 800,
+                maxCapacity: 1000
+            },
+            {
+                id: '3',
+                title: 'Comedy Night Special',
+                description: 'An evening of laughter with Burhaan "Momo" Wonder and other top South African comedians.',
+                date: '2025-08-10',
+                time: '20:00',
+                venue: 'The Comedy Club',
+                location: 'Cape Town, SA',
+                category: 'comedy-show',
+                artistNames: ['Burhaan "Momo" Wonder'],
+                price: 'R120 - R300',
+                image: './images/events/post.jpg',
+                status: 'upcoming',
+                ticketsAvailable: 150,
+                maxCapacity: 200
+            }
+        ];
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+            }
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-ZA', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Render Artists
+        function renderArtists(artistsToRender = artists) {
+            const grid = document.getElementById('artists-grid');
+            
+            if (artistsToRender.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--gray-500);">No artists found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = artistsToRender.map(artist => `
+                <div class="card fade-in">
+                    <div class="card-image">
+                        <img src="${artist.profileImage}" alt="${artist.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&size=400&background=E14434&color=fff'">
+                        ${artist.verified ? '<div class="verified-badge">✓ Verified</div>' : ''}
+                        <div class="rating-badge">⭐ ${artist.rating}</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${artist.name}</h3>
+                        <p class="card-genre">${artist.genres.join(', ')}</p>
+                        <p class="card-description">${artist.description}</p>
+                        <div class="card-details">
+                            <span>📍 ${artist.location}</span>
+                            <span>⭐ ${artist.rating}/5</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="card-price">${artist.priceRange}</span>
+                            <button class="card-btn" onclick="openArtistModal('${artist.id}')">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Trigger fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        // Render Events
+        function renderEvents(eventsToRender = events) {
+            const grid = document.getElementById('events-grid');
+            
+            if (eventsToRender.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--gray-500);">No events found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = eventsToRender.map(event => `
+                <div class="card fade-in">
+                    <div class="card-image">
+                        <img src="${event.image}" alt="${event.title}">
+                        <div class="verified-badge">${event.status.charAt(0).toUpperCase() + event.status.slice(1)}</div>
+                        <div class="rating-badge">${event.price}</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${event.title}</h3>
+                        <p class="card-genre">${event.artistNames.join(', ')}</p>
+                        <p class="card-description">${event.description}</p>
+                        <div class="card-details">
+                            <span>📅 ${formatDate(event.date)} at ${event.time}</span>
+                        </div>
+                        <div class="card-details">
+                            <span>📍 ${event.venue}, ${event.location}</span>
+                        </div>
+                        <div class="card-details">
+                            <span>🎫 ${event.ticketsAvailable} of ${event.maxCapacity} tickets available</span>
+                        </div>
+                        <div class="card-footer">
+                            <span class="card-price">${event.price}</span>
+                            <button class="card-btn">Get Tickets</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Trigger fade-in animation
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('visible');
+                });
+            }, 100);
+        }
+
+        // Filter functionality
+        function setupFilters() {
+            // Artist filters
+            document.getElementById('artist-filters').addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('#artist-filters .filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const filter = e.target.getAttribute('data-filter');
+                    const searchTerm = document.getElementById('artist-search').value.toLowerCase();
+                    
+                    filterArtists(filter, searchTerm);
+                }
+            });
+
+            // Event filters
+            document.getElementById('event-filters').addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('#event-filters .filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const filter = e.target.getAttribute('data-filter');
+                    const searchTerm = document.getElementById('event-search').value.toLowerCase();
+                    
+                    filterEvents(filter, searchTerm);
+                }
+            });
+
+            // Search functionality
+            document.getElementById('artist-search').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const activeFilter = document.querySelector('#artist-filters .filter-btn.active').getAttribute('data-filter');
+                filterArtists(activeFilter, searchTerm);
+            });
+
+            document.getElementById('event-search').addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const activeFilter = document.querySelector('#event-filters .filter-btn.active').getAttribute('data-filter');
+                filterEvents(activeFilter, searchTerm);
+            });
+        }
+
+        function filterArtists(filter, searchTerm) {
+            let filtered = artists;
+
+            if (filter !== 'all') {
+                filtered = filtered.filter(artist => artist.categories.includes(filter));
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(artist => 
+                    artist.name.toLowerCase().includes(searchTerm) ||
+                    artist.genres.some(genre => genre.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            renderArtists(filtered);
+        }
+
+        function filterEvents(filter, searchTerm) {
+            let filtered = events;
+
+            if (filter !== 'all') {
+                filtered = filtered.filter(event => event.category === filter);
+            }
+
+            if (searchTerm) {
+                filtered = filtered.filter(event => 
+                    event.title.toLowerCase().includes(searchTerm) ||
+                    event.artistNames.some(name => name.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            renderEvents(filtered);
+        }
+
+        // Modal functionality
+        function openArtistModal(artistId) {
+            const artist = artists.find(a => a.id === artistId);
+            if (!artist) return;
+
+            document.getElementById('modal-artist-name').textContent = artist.name;
+            document.getElementById('modal-artist-content').innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <img src="${artist.profileImage}" alt="${artist.name}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(artist.name)}&size=150&background=E14434&color=fff'">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                        <span style="color: var(--primary-red); font-weight: 600;">${artist.genres.join(', ')}</span>
+                        ${artist.verified ? '<span style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 1rem; font-size: 0.75rem;">✓ Verified</span>' : ''}
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; font-size: 0.875rem; color: var(--gray-500);">
+                        <span>📍 ${artist.location}</span>
+                        <span>⭐ ${artist.rating}/5</span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">About</h4>
+                    <p style="color: var(--gray-600); line-height: 1.6;">${artist.description}</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Pricing</h4>
+                    <p style="font-size: 1.25rem; font-weight: bold; color: var(--primary-red);">${artist.priceRange}</p>
+                    <p style="font-size: 0.875rem; color: var(--gray-500);">Starting price for events</p>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <h4 style="font-weight: 600; margin-bottom: 0.5rem;">Connect</h4>
+                    <div style="display: flex; gap: 1rem;">
+                        ${artist.socialMedia.instagram ? `<a href="#" style="color: var(--primary-red); text-decoration: none;">📷 ${artist.socialMedia.instagram}</a>` : ''}
+                        ${artist.socialMedia.twitter ? `<a href="#" style="color: var(--primary-red); text-decoration: none;">🐦 ${artist.socialMedia.twitter}</a>` : ''}
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;">Book Now</button>
+                </div>
+            `;
+
+            document.getElementById('artist-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('artist-modal').classList.remove('active');
+        }
+
+        // Smooth scrolling
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('artist-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'artist-modal') {
+                closeModal();
+            }
+        });
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            renderArtists();
+            renderEvents();
+            setupFilters();
+            setupSmoothScrolling();
+        });
+    </script>
+</body>
+</html>
